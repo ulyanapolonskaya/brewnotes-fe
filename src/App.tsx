@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
+import BeansList from './pages/BeansList';
 // Import other pages as needed
 
 const router = createBrowserRouter([
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: '/beans',
+        element: <BeansList />,
       },
       // Add other routes as needed
       // {

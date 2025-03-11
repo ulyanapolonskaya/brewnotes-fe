@@ -1,32 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { StarIcon } from 'lucide-react';
-import { useCoffeeBeans } from '@/hooks/useCoffeeBeans';
+import { CoffeeIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const { beans, loading, error } = useCoffeeBeans();
-
-  const renderStars = (rating = 0) => {
-    return Array(5)
-      .fill(0)
-      .map((_, i) => (
-        <StarIcon
-          key={i}
-          className={`w-4 h-4 ${
-            i < rating ? 'fill-amber-600 text-amber-600' : 'text-gray-300'
-          }`}
-        />
-      ));
-  };
-
   return (
     <div className="bg-amber-50 min-h-screen">
       <div className="container mx-auto p-6">
@@ -35,69 +11,39 @@ const Home = () => {
           <p className="text-brown-600">Your personal coffee bean collection</p>
         </div>
 
-        {loading && (
-          <div className="flex justify-center my-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brown-700"></div>
-          </div>
-        )}
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
-            {error}
-          </div>
-        )}
-
-        {!loading && !error && beans.length === 0 && (
-          <Card className="bg-white border-brown-200">
-            <CardContent className="pt-6 text-center">
-              <p className="text-brown-600">
-                No coffee beans found. Start by adding your first one!
+        {/* Hero section with call to actions */}
+        <div className="mb-16 bg-gradient-to-r from-amber-700 to-brown-800 rounded-lg p-8 text-white">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="mb-6 md:mb-0 md:mr-8">
+              <h2 className="text-3xl font-bold mb-4">Your Coffee Journey</h2>
+              <p className="text-amber-100 mb-6">
+                Track your favorite beans, brewing methods, and tasting notes
+                all in one place.
               </p>
-              <Button className="mt-4 bg-brown-700 hover:bg-brown-800">
-                Add Coffee Bean
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Array.isArray(beans) &&
-            beans.map((bean) => (
-              <Card
-                key={bean.id}
-                className="overflow-hidden border border-brown-200 bg-white hover:shadow-md transition-shadow"
-              >
-                <CardHeader className="bg-gradient-to-r from-amber-800 to-brown-700 text-white">
-                  <CardTitle>{bean.name}</CardTitle>
-                  <CardDescription className="text-amber-100">
-                    Origin: {bean.origin}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="flex items-center mb-2">
-                    <div className="flex space-x-0.5">
-                      {renderStars(bean.rating)}
-                    </div>
-                    <span className="ml-2 text-sm text-gray-600">
-                      {bean.rating ? `${bean.rating}/5` : 'Not rated'}
-                    </span>
-                  </div>
-                  <Badge className="bg-amber-600 mb-3">{bean.roastLevel}</Badge>
-                  <p className="text-gray-700 mt-2">
-                    {bean.description ||
-                      'No description available for this coffee bean.'}
-                  </p>
-                </CardContent>
-                <CardFooter className="bg-amber-50 border-t border-brown-100">
-                  <Button
-                    className="bg-brown-700 hover:bg-brown-800 text-white"
-                    onClick={() => (window.location.href = `/beans/${bean.id}`)}
-                  >
-                    View Details
+              <div className="flex space-x-4">
+                <Link to="/beans">
+                  <Button className="bg-amber-500 hover:bg-amber-600 text-brown-900">
+                    <CoffeeIcon className="mr-2 h-4 w-4" /> Browse All Beans
                   </Button>
-                </CardFooter>
-              </Card>
-            ))}
+                </Link>
+                <Link to="/beans/new">
+                  <Button className="bg-white text-brown-800 hover:bg-amber-100">
+                    Add New Bean
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <img
+                src="/coffee-illustration.svg"
+                alt="Coffee Beans"
+                className="w-64 h-64"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
