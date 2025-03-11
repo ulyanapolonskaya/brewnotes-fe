@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/beans';
+// Get the base URL from environment variables
+const BASE_API_URL = import.meta.env.VITE_API_URL;
+
 export interface Bean {
   id: string;
   name: string;
@@ -12,7 +14,7 @@ export interface Bean {
 
 export const fetchBeans = async (): Promise<Bean[]> => {
   try {
-    const response = await axios.get(`${API_URL}`);
+    const response = await axios.get(BASE_API_URL);
     return response.data;
   } catch (error) {
     console.error('Error fetching beans:', error);
