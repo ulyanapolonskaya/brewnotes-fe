@@ -1,49 +1,27 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
-interface CoffeeBean {
-  id: string;
-  name: string;
-  origin: string;
-  roastLevel: string;
-  rating?: number;
-  description?: string;
-  // Add more properties as needed
-}
+import { fetchBeans, Bean } from '../services/api';
 
 export const useCoffeeBeans = () => {
-  const [beans, setBeans] = useState<CoffeeBean[]>([]);
+  const [beans, setBeans] = useState<Bean[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchBeans = async () => {
+    const getBeans = async () => {
       try {
         setLoading(true);
-        // Adjust the API endpoint to match your backend
-        const response = await axios.get('/api/beans');
-
-        // Check the actual structure of the response data
-        console.log('API response:', response.data);
-
-        // Make sure we're setting an array
-        const beansData = Array.isArray(response.data)
-          ? response.data
-          : response.data.beans || response.data.content || [];
-
-        setBeans(beansData);
+        const data = await fetchBeans();
+        setBeans(data);
         setError(null);
       } catch (err) {
-        setError('Failed to fetch coffee beans. Please try again later.');
-        console.error('Error fetching beans:', err);
-        // Initialize beans as empty array in case of error
-        setBeans([]);
+        setError('Failed to fetch beans');
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBeans();
+    getBeans();
   }, []);
 
   return { beans, loading, error };
