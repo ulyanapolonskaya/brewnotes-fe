@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { CoffeeIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import src from '/coffee-illustration.svg';
 
 const Home = () => {
   return (
@@ -35,7 +36,7 @@ const Home = () => {
             </div>
             <div className="hidden md:block">
               <img
-                src="/coffee-illustration.svg"
+                src={src}
                 alt="Coffee Beans"
                 className="w-64 h-64"
                 onError={(e) => {
